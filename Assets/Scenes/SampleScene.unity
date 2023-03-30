@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896f4fa027a6f664d9fb2eea7a6c8d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameName: TestSave
 --- !u!4 &106449897
 Transform:
   m_ObjectHideFlags: 0
@@ -190,7 +191,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   xp: 100
-  playerTransform: {fileID: 214511696}
 --- !u!114 &214511698
 MonoBehaviour:
   m_ObjectHideFlags: 0

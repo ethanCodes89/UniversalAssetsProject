@@ -1,13 +1,25 @@
-using System.Collections;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+
 
 public class SavingAndLoading : Singleton<SavingAndLoading>
 {
-    private string SavePath => $"{Application.persistentDataPath}/save.txt";
-
+    public string GameName;
+    private string saveFolder;
+    private string completeFileLocation;
+    private void Awake()
+    {
+        saveFolder = Application.persistentDataPath + "/Saves/";
+        if (!Directory.Exists(saveFolder))
+        {
+            Directory.CreateDirectory(saveFolder);
+        }
+        completeFileLocation = saveFolder + GameName + ".json";
+        Debug.Log("Savepath located at: " + saveFolder); //Helps us find the json file
+    }
+    #region SaveAndLoadCommands
     [ContextMenu("Save")]
     private void Save()
     {
@@ -26,31 +38,26 @@ public class SavingAndLoading : Singleton<SavingAndLoading>
     [ContextMenu("Delete")]
     private void DeleteData()
     {
-        if (File.Exists(SavePath))
-        File.Delete(SavePath);
+        if (File.Exists(completeFileLocation))
+        File.Delete(completeFileLocation);
     }
+    #endregion
 
     private void SaveFile(object state)
     {
-        using (var stream = File.Open(SavePath, FileMode.Create))
-        {
-            var formatter = new BinaryFormatter();
-            formatter.Serialize(stream, state);
-        }
+        string jsonString = JsonConvert.SerializeObject(state, Formatting.Indented);
+        File.WriteAllText(completeFileLocation, jsonString);
     }
 
     private Dictionary<string, object> LoadFile()
     {
-        if(!File.Exists(SavePath))
+        if(!File.Exists(completeFileLocation))
         {
+            Debug.LogError("No File To Load");
             return new Dictionary<string, object>();
         }
-
-        using (FileStream stream = File.Open(SavePath, FileMode.Open))
-        {
-            var formatter = new BinaryFormatter();
-            return (Dictionary<string, object>)formatter.Deserialize(stream);
-        }
+        string json = File.ReadAllText(saveFolder + GameName + ".json");
+        return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
     }
 
     private void CaptureState(Dictionary<string, object> state)

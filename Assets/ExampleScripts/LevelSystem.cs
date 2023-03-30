@@ -1,28 +1,25 @@
+using Newtonsoft.Json;
 using UnityEngine;
+[System.Serializable]
 public class LevelSystem : MonoBehaviour, ISaveable
 {
     [SerializeField] private int level = 1;
     [SerializeField] private int xp = 100;
-    [SerializeField] private Transform playerTransform;
 
     public object CaptureState()
     {
-        SerializeTransform serializedPlayerTransform = new SerializeTransform(transform);
-
         return new SaveData
         {
             level = level,
-            xp = xp,
-            playerTransform = serializedPlayerTransform
+            xp = xp
         };
     }
 
     public void RestoreState(object state)
     {
-        var saveData = (SaveData)state;
+        var saveData = JsonConvert.DeserializeObject<SaveData>(state.ToString()); 
         level = saveData.level;
         xp = saveData.xp;
-        DeserializeTransformUtility.DeserializeTransform(playerTransform ,saveData.playerTransform); 
     }
 
     [System.Serializable]
@@ -30,7 +27,6 @@ public class LevelSystem : MonoBehaviour, ISaveable
     {
         public int level;
         public int xp;
-        public SerializeTransform playerTransform;
     }
 
 }

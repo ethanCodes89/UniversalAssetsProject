@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +8,11 @@ public class SaveableEntity : MonoBehaviour
 
     public string Id => id;
 
-    [ContextMenu("Generate Id")]
-    private void GenerateId() => id = System.Guid.NewGuid().ToString();
+
+    private void Awake()
+    {
+        if(id == string.Empty) id = System.Guid.NewGuid().ToString(); //Only generate a guid if one doesn't already exist
+    }
 
     public object CaptureState()
     {
@@ -23,8 +27,8 @@ public class SaveableEntity : MonoBehaviour
 
     public void RestoreState(object state)
     {
-        var stateDictionary = (Dictionary<string, object>)state;
-
+        var stateDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(state.ToString());
+        
         foreach(var saveable in GetComponents<ISaveable>())
         {
             string typeName = saveable.GetType().ToString();
