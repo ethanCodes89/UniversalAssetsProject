@@ -2,7 +2,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
+using UniversalAssetsProject.Utilities;
 
 public class SavingAndLoading : Singleton<SavingAndLoading>
 {
@@ -19,46 +20,32 @@ public class SavingAndLoading : Singleton<SavingAndLoading>
         completeFileLocation = saveFolder + GameName + ".json";
         Debug.Log("Savepath located at: " + saveFolder); //Helps us find the json file
     }
+
     #region SaveAndLoadCommands
-    [ContextMenu("Save")]
-    private void Save()
+    public void Save()
     {
-        var state = LoadFile();
+        var state = File.Exists(completeFileLocation) ? JsonConversions.DeserializeToDictionary(completeFileLocation) : new Dictionary<string, object>();
         CaptureState(state);
-        SaveFile(state);
+       JsonConversions.SerializeToJson(state, completeFileLocation);
     }
 
-    [ContextMenu("Load")]
-    private void Load()
+    public void Load()
     {
-        var state = LoadFile();
+        if (!File.Exists(completeFileLocation))
+        {
+            Debug.LogError("No File To Load");
+            return;
+        }
+        var state = JsonConversions.DeserializeToDictionary(completeFileLocation);
         RestoreState(state);
     }
 
-    [ContextMenu("Delete")]
-    private void DeleteData()
+    public void DeleteData()
     {
         if (File.Exists(completeFileLocation))
         File.Delete(completeFileLocation);
     }
     #endregion
-
-    private void SaveFile(object state)
-    {
-        string jsonString = JsonConvert.SerializeObject(state, Formatting.Indented);
-        File.WriteAllText(completeFileLocation, jsonString);
-    }
-
-    private Dictionary<string, object> LoadFile()
-    {
-        if(!File.Exists(completeFileLocation))
-        {
-            Debug.LogError("No File To Load");
-            return new Dictionary<string, object>();
-        }
-        string json = File.ReadAllText(saveFolder + GameName + ".json");
-        return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-    }
 
     private void CaptureState(Dictionary<string, object> state)
     {

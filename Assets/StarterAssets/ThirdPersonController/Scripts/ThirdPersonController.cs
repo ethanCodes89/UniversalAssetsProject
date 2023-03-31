@@ -105,7 +105,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
-
+        private SavingAndLoading savingObject;
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
@@ -144,9 +144,8 @@ namespace StarterAssets
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
-
             AssignAnimationIDs();
-
+            savingObject = FindObjectOfType<SavingAndLoading>();
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
@@ -155,6 +154,7 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
+
 
             JumpAndGravity();
             GroundedCheck();
