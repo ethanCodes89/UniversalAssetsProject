@@ -7,12 +7,7 @@ public class SaveableEntity : MonoBehaviour
     [SerializeField] private string id = string.Empty;
 
     public string Id => id;
-
-
-    private void Awake()
-    {
-        if(id == string.Empty) id = System.Guid.NewGuid().ToString(); //Only generate a guid if one doesn't already exist
-    }
+    public void SetId(string id) { this.id = id; }
 
     public object CaptureState()
     {

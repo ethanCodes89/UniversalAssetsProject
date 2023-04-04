@@ -44,8 +44,26 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
-#endif
 
+		public void OnSave()
+        {
+			SaveGame();
+        }
+
+        public void OnLoad()
+        {
+			LoadGame();
+        }
+#endif
+        public void SaveGame()
+        {
+			FindObjectOfType<SavingAndLoading>().Save();
+        }
+
+		public void LoadGame()
+        {
+			FindObjectOfType<SavingAndLoading>().Load();
+        }
 
 		public void MoveInput(Vector2 newMoveDirection)
 		{

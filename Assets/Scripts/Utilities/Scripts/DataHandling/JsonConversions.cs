@@ -25,10 +25,10 @@ namespace UniversalAssetsProject.Utilities
         public static Dictionary<string, object> DeserializeToDictionary(string file)
         {
 #if(UNITY_EDITOR)
+            string json = File.ReadAllText(file);
+#else
             string encrypted = File.ReadAllText(file);
             string json = DecryptAES(encrypted);
-#else
-            string json = File.ReadAllText(file);
 #endif
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
         }
