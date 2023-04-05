@@ -49,7 +49,7 @@ namespace StarterAssets
         {
 			SaveGame();
         }
-
+		
         public void OnLoad()
         {
 			LoadGame();
