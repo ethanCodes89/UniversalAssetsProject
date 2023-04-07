@@ -1,18 +1,16 @@
 using Newtonsoft.Json;
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerCharacterSaveData : MonoBehaviour, ISaveable
-{
-    [SerializeField] private int level = 1;
-    [SerializeField] private int xp = 100;
+/*This is a base class that can be inherited from for any object that needs to have persistent data saved between plays. 
+ */
 
+[System.Serializable]
+public class BaseSaveData : MonoBehaviour, ISaveable
+{
     public object CaptureState()
     {
         return new SaveData
         {
-            level = level,
-            xp = xp,
             position = transform.localPosition,
             rotation = transform.localRotation,
             scale = transform.localScale
@@ -21,9 +19,7 @@ public class PlayerCharacterSaveData : MonoBehaviour, ISaveable
 
     public void RestoreState(object state)
     {
-        var saveData = JsonConvert.DeserializeObject<SaveData>(state.ToString()); 
-        level = saveData.level;
-        xp = saveData.xp;
+        var saveData = JsonConvert.DeserializeObject<SaveData>(state.ToString());
         transform.localPosition = saveData.position;
         transform.localRotation = saveData.rotation;
         transform.localScale = saveData.scale;
@@ -32,8 +28,6 @@ public class PlayerCharacterSaveData : MonoBehaviour, ISaveable
     [System.Serializable]
     private struct SaveData
     {
-        public int level;
-        public int xp;
         public Vector3 position;
         public Quaternion rotation;
         public Vector3 scale;

@@ -14,7 +14,7 @@ namespace UniversalAssetsProject.Utilities
         public static void SerializeToJson(object state, string file)
         {
             string jsonString = JsonConvert.SerializeObject(state, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-#if (UNITY_EDITOR)
+#if UNITY_EDITOR
             File.WriteAllText(file, jsonString);
 #else
             string encrypted = EncryptData(jsonString);
@@ -24,7 +24,7 @@ namespace UniversalAssetsProject.Utilities
 
         public static Dictionary<string, object> DeserializeToDictionary(string file)
         {
-#if(UNITY_EDITOR)
+#if UNITY_EDITOR
             string json = File.ReadAllText(file);
 #else
             string encrypted = File.ReadAllText(file);

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UniversalAssetsProject.Utilities;
 public class SavingAndLoading : Singleton<SavingAndLoading>
 {
     public string GameName;
+
     private string saveFolder;
     private string completeFileLocation;
     private void Awake()
@@ -59,6 +61,7 @@ public class SavingAndLoading : Singleton<SavingAndLoading>
     {
         foreach(var saveable in FindObjectsOfType<SaveableEntity>())
         {
+
             if(state.TryGetValue(saveable.Id, out object value))
             {
                 saveable.RestoreState(value);

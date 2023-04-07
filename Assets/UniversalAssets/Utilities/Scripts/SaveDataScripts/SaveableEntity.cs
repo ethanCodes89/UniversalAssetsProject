@@ -5,9 +5,16 @@ using UnityEngine;
 public class SaveableEntity : MonoBehaviour
 {
     [SerializeField] private string id = string.Empty;
-
     public string Id => id;
     public void SetId(string id) { this.id = id; }
+
+    private void Start()
+    {
+        if (Id == "") //if a prefab is instantiated while playing, add a guid to it for saving purposes
+        {
+            SetId(System.Guid.NewGuid().ToString());
+        }
+    }
 
     public object CaptureState()
     {
