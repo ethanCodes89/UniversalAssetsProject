@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using UniversalAssetsProject.Utilities.SavingAndLoading;
 #endif
 
 namespace StarterAssets
@@ -20,13 +21,14 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
+
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
 			MoveInput(value.Get<Vector2>());
 		}
 
-		public void OnLook(InputValue value)
+        public void OnLook(InputValue value)
 		{
 			if(cursorInputForLook)
 			{
@@ -43,8 +45,26 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
-#endif
 
+		public void OnSave()
+        {
+			SaveGame();
+        }
+		
+        public void OnLoad()
+        {
+			LoadGame();
+        }
+#endif
+        public void SaveGame()
+        {
+			SavingAndLoading.Instance.Save();
+        }
+
+		public void LoadGame()
+        {
+			SavingAndLoading.Instance.Load();
+        }
 
 		public void MoveInput(Vector2 newMoveDirection)
 		{
