@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UniversalAssetsProject.Utilities.SavingAndLoading;
 
 [System.Serializable]
 public class CameraSaveData : MonoBehaviour, ISaveable

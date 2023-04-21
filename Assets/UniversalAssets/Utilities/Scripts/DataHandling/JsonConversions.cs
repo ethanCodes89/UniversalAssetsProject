@@ -33,6 +33,13 @@ namespace UniversalAssetsProject.Utilities
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
         }
 
+        public static  Dictionary<string, object> DeserializeToDictionary(object _object)
+        {
+            var data = JsonConvert.SerializeObject(_object);
+
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(data);
+        }
+
         public static string EncryptData(string data)
         {
             GenerateIVBytes();

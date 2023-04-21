@@ -1,5 +1,8 @@
-public interface ISaveable
+namespace UniversalAssetsProject.Utilities.SavingAndLoading
 {
-    object CaptureState();
-    void RestoreState(object state);
+    public interface ISaveable
+    {
+        object CaptureState();
+        void RestoreState(object state);
+    }
 }

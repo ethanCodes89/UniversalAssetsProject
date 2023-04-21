@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using UniversalAssetsProject.Utilities.SavingAndLoading;
 #endif
 
 namespace StarterAssets
@@ -57,12 +58,12 @@ namespace StarterAssets
 #endif
         public void SaveGame()
         {
-			FindObjectOfType<SavingAndLoading>().Save();
+			SavingAndLoading.Instance.Save();
         }
 
 		public void LoadGame()
         {
-			FindObjectOfType<SavingAndLoading>().Load();
+			SavingAndLoading.Instance.Load();
         }
 
 		public void MoveInput(Vector2 newMoveDirection)
